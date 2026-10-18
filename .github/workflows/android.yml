@@ -1,0 +1,26 @@
+
+name: Gerar APK Android
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Baixar arquivos do projeto
+        uses: actions/checkout@v4
+
+      - name: Compilar APK com Buildozer
+        uses: digreatbrian/buildozer-action@v2
+        with:
+          python-version: '3.11'
+          buildozer-cmd: buildozer android debug
+
+      - name: Guardar APK gerado
+        uses: actions/upload-artifact@v4
+        with:
+          name: Horta-Inteligente-APK
+          path: bin/*.apk
+          if-no-files-found: error
